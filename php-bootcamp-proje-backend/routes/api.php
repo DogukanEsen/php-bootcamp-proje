@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 
-
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/users/{id}/change-password', [UserController::class, 'changePassword']);
+Route::post('/users/{id}/upload-profile-photo', [UserController::class, 'uploadProfilePhotoPath']);
 
 Route::post('books', [BookController::class, 'create']);
 Route::get('books', [BookController::class, 'index']);
