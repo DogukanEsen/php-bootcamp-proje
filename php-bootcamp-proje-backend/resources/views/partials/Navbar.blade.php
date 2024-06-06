@@ -9,9 +9,9 @@
                 </button>
             </div>
             <div class="col-6">
-                <form class="d-flex" action="{{ url('books/search') }}" method="GET">
+                <form class="d-flex" action="{{ route('books.search') }}" method="GET">
                     <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search"
-                        name="q">
+                        name="search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>

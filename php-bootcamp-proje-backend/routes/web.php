@@ -16,3 +16,4 @@ Route::get('books/{id}/edit', [BookController::class, 'edit']);
 Route::put('books/{id}', [BookController::class, 'update']);
 Route::delete('books/{id}', [BookController::class, 'destroy']);
 Route::get('/kategori/{name}', [BookController::class, 'showCategory'])->name('category.show');
+Route::get('/search', [BookController::class, 'search'])->name('books.search');

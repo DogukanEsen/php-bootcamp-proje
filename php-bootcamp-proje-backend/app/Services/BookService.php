@@ -77,6 +77,16 @@ class BookService
         return null;
     }
 
+    public function search($query)
+    {
+
+        $results = Book::where('title', 'like', "%$query%")
+            ->orWhere('description', 'like', '%' . $query . '%')
+            ->orWhere('category', 'like', '%' . $query . '%')
+            ->get();
+
+        return $results;
+    }
 
     public function delete($id)
     {

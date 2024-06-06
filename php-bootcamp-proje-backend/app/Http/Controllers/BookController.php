@@ -68,5 +68,10 @@ class BookController extends Controller
         return redirect('/books');
     }
 
-
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $books = $this->bookService->search($search);
+        return view('books.search-results', compact('books'));
+    }
 }
