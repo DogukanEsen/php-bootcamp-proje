@@ -25,8 +25,11 @@ Route::post('/logout', [userController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/account/settings', [UserController::class, 'showAccountSettings'])->name('account.settings');
     Route::put('/account/settings', [UserController::class, 'update'])->name('account.update');
+
     Route::post('/cart/add/{bookId}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+    Route::put('/cart/update/{cartItem}', [CartController::class, 'updateCartItem'])->name('cart.update');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 });
 //Admin için
 Route::middleware(['auth'])->group(function () {

@@ -19,19 +19,40 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $bookId)
     {
-        $book = $this->cartService->addToCart($request, $bookId);
+        $result = $this->cartService->addToCart($request, $bookId);
 
-        return view('books.show', compact('book'));
+        if ($result['success']) {
+            return redirect()->back()->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
+
+
+    public function updateCartItem(Request $request, $cartItemId)
+    {
+        $result = $this->cartService->updateCartItem($request, $cartItemId);
+
+        if ($result['success']) {
+            return redirect()->back()->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
+    }
+
     public function viewCart()
     {
         $cartItems = $this->cartService->viewCart();
 
         return view('cart.view')->with('cartItems', $cartItems);
     }
-    public function checkout($id)
+    public function checkout()
     {
-        $cart = $this->cartService->checkout($id);
-        return response()->json($cart);
+        $result = $this->cartService->checkout();
+        if ($result['success']) {
+            return redirect()->back()->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
 }
