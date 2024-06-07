@@ -30,5 +30,7 @@ Route::post('/logout', [userController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/account/settings', [UserController::class, 'showAccountSettings'])->name('account.settings');
     Route::put('/account/settings', [UserController::class, 'update'])->name('account.update');
+    Route::post('/cart/add/{bookId}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
 });
 

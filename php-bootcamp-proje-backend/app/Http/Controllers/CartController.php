@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -13,10 +17,28 @@ class CartController extends Controller
         $this->cartService = $cartService;
     }
 
-    public function addToCart(Request $request)
+    public function addToCart(Request $request, $bookId)
     {
-        $cartItem = $this->cartService->addToCart($request->user_id, $request->book_id, $request->quantity);
-        return response()->json($cartItem, 201);
+        $book = $this->cartService->addToCart($request, $bookId);
+
+        return view('books.show', compact('book'));
+    }
+    public function viewCart()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $cart = Cart::where('user_id', $user->id)->first();
+
+        if (!$cart) {
+            return view('cart.view')->with('cartItems', []);
+        }
+
+        $cartItems = $cart->items()->with('book')->get();
+
+        return view('cart.view')->with('cartItems', $cartItems);
     }
     public function checkout($id)
     {
