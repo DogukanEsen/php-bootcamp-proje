@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-4">Books</h1>
+    @if (isset($category))
+        <h1>{{ $category }} Kategorisindeki Kitaplar</h1>
+    @elseif(isset($searchResults))
+        <h1>{{ $searchResults }} Arama Sonuçları</h1>
+    @else
+        <h1 class="mb-4">Books</h1>
+    @endif
     <div class="row">
         @foreach ($books as $book)
             <div class="col-md-4 mb-4">
@@ -13,11 +19,12 @@
                         @if ($book->cover_image_path)
                             <img src="{{ Storage::url($book->cover_image_path) }}" alt="{{ $book->title }}" width="100">
                         @endif
-                        <a href="{{ url('books/' . $book->id) }}" class="btn btn-primary">View Details</a>
+                        <a href="{{ route('books.show', ['id' => $book->id]) }}" class="btn btn-primary">View Details</a>
                         @auth
                             @if (Auth::user()->is_admin)
-                                <a href="{{ url('books/' . $book->id . '/edit') }}" class="btn btn-secondary">Edit</a>
-                                <form action="{{ url('books/' . $book->id) }}" method="POST" class="d-inline-block">
+                                <a href="{{ route('books.edit', ['id' => $book->id]) }}" class="btn btn-secondary">Edit</a>
+                                <form action="{{ route('books.destroy', ['id' => $book->id]) }}" method="POST"
+                                    class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
