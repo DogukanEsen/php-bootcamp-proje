@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Http\Request;
 
@@ -28,9 +27,13 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $book = $this->bookService->createBook($request);
+        $result = $this->bookService->createBook($request);
 
-        return redirect('/books');
+        if ($result['success']) {
+            return redirect()->route('books.index')->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
 
     public function show($id)
@@ -45,7 +48,7 @@ class BookController extends Controller
         $books = $this->bookService->getByCategory($name);
 
 
-        return view('books.category', ['books' => $books, 'category' => $name]);
+        return view('books.index', ['books' => $books, 'category' => $name]);
     }
 
     public function edit($id)
@@ -56,22 +59,29 @@ class BookController extends Controller
 
     public function update(Request $request, $id)
     {
-        $book = $this->bookService->update($id, $request);
+        $result = $this->bookService->update($id, $request);
 
-        return view('books.show', compact('book'));
+        if ($result['success']) {
+            return redirect()->route('books.show', $result["book"])->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
 
     public function destroy($id)
     {
-        $book = $this->bookService->delete($id);
-
-        return redirect('/books');
+        $result = $this->bookService->delete($id);
+        if ($result['success']) {
+            return redirect()->route('books.index')->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
 
     public function search(Request $request)
     {
         $search = $request->input('search');
         $books = $this->bookService->search($search);
-        return view('books.search-results', compact('books'));
+        return view('books.index', ['books' => $books, 'searchResults' => $search]);
     }
 }

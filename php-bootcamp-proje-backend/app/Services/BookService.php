@@ -17,7 +17,7 @@ class BookService
     {
 
         $data = $request->validate([
-            'isbn' => 'required|string|max:255',
+            'isbn' => 'required|string|max:255|unique:books,isbn',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'category' => 'nullable|string',
@@ -33,8 +33,8 @@ class BookService
             $path = $file->storeAs('img', $filename, 'public');
             $data['cover_image_path'] = $path;
         }
-
-        return Book::create($data);
+        Book::create($data);
+        return ['success' => true, 'message' => 'Book successfully created.'];
     }
     public function getById($id)
     {
@@ -70,11 +70,10 @@ class BookService
                 $path = $file->storeAs('img', $filename, 'public');
                 $data['cover_image_path'] = $path;
             }
-
             $book->update($data);
-            return $book;
+            return ['success' => true, 'book' => $book, 'message' => 'Book successfully updated.'];
         }
-        return null;
+        return ['success' => false, 'message' => 'Book not found.'];
     }
 
     public function search($query)
@@ -96,8 +95,8 @@ class BookService
                 Storage::disk('public')->delete($book->cover_image_path);
             }
             $book->delete();
-            return true;
+            return ['success' => true, 'message' => 'Book successfully deleted.'];
         }
-        return false;
+        return ['success' => false, 'message' => 'Book not found.'];
     }
 }

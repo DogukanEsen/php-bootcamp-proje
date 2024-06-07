@@ -21,8 +21,12 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $user = $this->userService->register($request);
-        return redirect()->route('login');
+        $result = $this->userService->register($request);
+        if ($result['success']) {
+            return redirect()->route('login')->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
     public function showLoginForm()
     {
@@ -31,20 +35,24 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        if ($this->userService->login($request)) {
-            return redirect('/');
-        }
+        $result = $this->userService->login($request);
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        if ($result['success']) {
+            return redirect()->route('books.index')->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
 
 
     public function logout(Request $request)
     {
-        $this->userService->logout($request);
-        return redirect('/');
+        $result = $this->userService->logout($request);
+        if ($result['success']) {
+            return redirect()->route('books.index')->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
 
     public function showAccountSettings()
@@ -54,8 +62,11 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        $book = $this->userService->update($request);
-
-        return view('users.account-settings');
+        $result = $this->userService->update($request);
+        if ($result['success']) {
+            return redirect()->route('account.settings')->with('success', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
     }
 }

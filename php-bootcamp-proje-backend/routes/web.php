@@ -12,8 +12,9 @@ use App\Http\Controllers\BookController;
 
 Route::get('books', [BookController::class, 'index'])->name('books.index');
 Route::get('books/{id}', [BookController::class, 'show'])->name('books.show');
-Route::get('/kategori/{name}', [BookController::class, 'showCategory'])->name('category.show');
+Route::get('category/{name}', [BookController::class, 'showCategory'])->name('category.show');
 Route::get('/search', [BookController::class, 'search'])->name('books.search');
+Route::get('book/create', [BookController::class, 'create'])->name('books.create');
 
 
 Route::get('/register', [UserController::class, 'showRegisterForm'])->name('register');
@@ -33,8 +34,7 @@ Route::middleware(['auth'])->group(function () {
 });
 //Admin için
 Route::middleware(['auth'])->group(function () {
-    Route::get('books/create', [BookController::class, 'create'])->name('books.create');
-    Route::post('books', [BookController::class, 'store']);
+    Route::post('books', [BookController::class, 'store'])->name('books.store');
     Route::get('books/{id}/edit', [BookController::class, 'edit'])->name('books.edit');
     Route::put('books/{id}', [BookController::class, 'update'])->name('books.update');
     Route::delete('books/{id}', [BookController::class, 'destroy'])->name('books.destroy');

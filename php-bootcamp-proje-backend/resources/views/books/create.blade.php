@@ -2,16 +2,7 @@
 
 @section('content')
     <h1 class="mb-4">Create Book</h1>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <form action="{{ url('books') }}" method="POST" enctype="multipart/form-data">>
+    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">>
         @csrf
         <div class="form-group">
             <label for="isbn">Isbn:</label>

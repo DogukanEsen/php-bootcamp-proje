@@ -19,13 +19,14 @@ class UserService
             'profile_photo_path' => 'nullable|string',
         ]);
 
-        return User::create([
+        User::create([
             "username" => $data["username"],
             'password' => Hash::make($data['password']),
             "email" => $data["email"],
             "profile_photo_path" => $data["profile_photo_path"] ?? null,
             "is_admin" => false,
         ]);
+        return ['success' => true, 'message' => 'User successfully created.'];
     }
 
     public function login($request)
@@ -37,10 +38,10 @@ class UserService
 
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
-            return true;
+            return ['success' => true, 'message' => 'User successfully logged in.'];
         }
 
-        return false;
+        return ['success' => false, 'message' => 'Email or password is incorrect.'];
     }
 
     public function logout($request)
@@ -48,6 +49,7 @@ class UserService
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        return ['success' => true, 'message' => 'Logged out successfully.'];
     }
 
     public function update($request)
@@ -80,8 +82,9 @@ class UserService
 
 
             $user->update($data);
+            return ['success' => true, 'message' => 'User successfully updated.'];
         }
-        return null;
+        return ['success' => false, 'message' => 'User not found.'];
     }
 }
 
