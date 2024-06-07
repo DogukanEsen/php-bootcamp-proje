@@ -11,12 +11,7 @@ Route::get('/', function () {
 use App\Http\Controllers\BookController;
 
 Route::get('books', [BookController::class, 'index'])->name('books.index');
-Route::get('books/create', [BookController::class, 'create'])->name('books.create');
-Route::post('books', [BookController::class, 'store']);
 Route::get('books/{id}', [BookController::class, 'show'])->name('books.show');
-Route::get('books/{id}/edit', [BookController::class, 'edit'])->name('books.edit');
-Route::put('books/{id}', [BookController::class, 'update'])->name('books.update');
-Route::delete('books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
 Route::get('/kategori/{name}', [BookController::class, 'showCategory'])->name('category.show');
 Route::get('/search', [BookController::class, 'search'])->name('books.search');
 
@@ -32,5 +27,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/account/settings', [UserController::class, 'update'])->name('account.update');
     Route::post('/cart/add/{bookId}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+});
+//Admin için
+Route::middleware(['auth'])->group(function () {
+    Route::get('books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('books', [BookController::class, 'store']);
+    Route::get('books/{id}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::put('books/{id}', [BookController::class, 'update'])->name('books.update');
+    Route::delete('books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
 });
 

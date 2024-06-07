@@ -79,6 +79,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('category.show', 'Cinayet') }}">Cinayet</a>
                 </li>
+                @auth
+                    @if (!Auth::user()->is_admin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cart.view') }}">Sepete Git</a>
+                        </li>
+                    @elseif (Auth::user()->is_admin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('books.create') }}">Kitap Ekle</a>
+                        </li>
+                    @endif
+                @endauth
             </ul>
         </div>
     </div>

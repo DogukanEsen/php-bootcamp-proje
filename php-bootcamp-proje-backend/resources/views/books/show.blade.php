@@ -11,14 +11,28 @@
             <p class="card-text">Cover Image Path: {{ $book->cover_image_path }}</p>
             <p class="card-text">Price: ₺{{ $book->price }}</p>
             <p class="card-text">Quantity: {{ $book->quantity }}</p>
-            <a href="{{ url('books/' . $book->id . '/edit') }}" class="btn btn-secondary">Edit</a>
+            @auth
+                @if (!Auth::user()->is_admin)
+                    <form action="{{ url('cart/add/' . $book->id) }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" name="quantity" id="quantity" class="form-control" value="1"
+                                min="1">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                @elseif (Auth::user()->is_admin)
+                    <a href="{{ url('books/' . $book->id . '/edit') }}" class="btn btn-secondary">Edit</a>
 
-            <form action="{{ url('books/' . $book->id) }}" method="POST" class="d-inline-block">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-
+                    <form action="{{ url('books/' . $book->id) }}" method="POST" class="d-inline-block">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                @endif
+            @endauth
             <a href="{{ url('/books') }}" class="btn btn-primary">Back to List</a>
         </div>
     </div>

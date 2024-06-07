@@ -14,12 +14,16 @@
                             <img src="{{ Storage::url($book->cover_image_path) }}" alt="{{ $book->title }}" width="100">
                         @endif
                         <a href="{{ url('books/' . $book->id) }}" class="btn btn-primary">View Details</a>
-                        <a href="{{ url('books/' . $book->id . '/edit') }}" class="btn btn-secondary">Edit</a>
-                        <form action="{{ url('books/' . $book->id) }}" method="POST" class="d-inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        @auth
+                            @if (Auth::user()->is_admin)
+                                <a href="{{ url('books/' . $book->id . '/edit') }}" class="btn btn-secondary">Edit</a>
+                                <form action="{{ url('books/' . $book->id) }}" method="POST" class="d-inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
