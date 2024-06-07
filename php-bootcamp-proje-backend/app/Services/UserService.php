@@ -1,9 +1,11 @@
 <?php
 namespace App\Services;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -26,6 +28,9 @@ class UserService
             "profile_photo_path" => $data["profile_photo_path"] ?? null,
             "is_admin" => false,
         ]);
+
+        Mail::to($data["email"])->send(new WelcomeMail(['username' => $data['username']]));
+
         return ['success' => true, 'message' => 'User successfully created.'];
     }
 
