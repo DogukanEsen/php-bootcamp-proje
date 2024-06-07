@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,13 +10,13 @@ Route::get('/', function () {
 
 use App\Http\Controllers\BookController;
 
-Route::get('books', [BookController::class, 'index']);
-Route::get('books/create', [BookController::class, 'create']);
+Route::get('books', [BookController::class, 'index'])->name('books.index');
+Route::get('books/create', [BookController::class, 'create'])->name('books.create');
 Route::post('books', [BookController::class, 'store']);
-Route::get('books/{id}', [BookController::class, 'show']);
-Route::get('books/{id}/edit', [BookController::class, 'edit']);
-Route::put('books/{id}', [BookController::class, 'update']);
-Route::delete('books/{id}', [BookController::class, 'destroy']);
+Route::get('books/{id}', [BookController::class, 'show'])->name('books.show');
+Route::get('books/{id}/edit', [BookController::class, 'edit'])->name('books.edit');
+Route::put('books/{id}', [BookController::class, 'update'])->name('books.update');
+Route::delete('books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
 Route::get('/kategori/{name}', [BookController::class, 'showCategory'])->name('category.show');
 Route::get('/search', [BookController::class, 'search'])->name('books.search');
 
