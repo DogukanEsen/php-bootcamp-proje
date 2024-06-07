@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <a class="navbar-brand" href={{ url('books') }}>Bookstore</a>
+                <a class="navbar-brand" href={{ route('books.index') }}>Bookstore</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#basic-navbar-nav"
                     aria-controls="basic-navbar-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

@@ -9,7 +9,7 @@
                         Hesap Ayarları
                     </div>
                     <div class="card-body">
-                        <form action="{{ url('/account/settings') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 

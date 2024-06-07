@@ -2,7 +2,7 @@
 
 @section('content')
     <h1 class="mb-4">Edit Book</h1>
-    <form action="{{ url('books/' . $book->id) }}" method="POST"enctype="multipart/form-data">>
+    <form action="{{ route('books.update', ['id' => $book->id]) }}" method="POST"enctype="multipart/form-data">>
         @csrf
         @method('PUT')
         <div class="form-group">
@@ -20,7 +20,7 @@
         <div class="mb-3">
             <label for="category" class="form-label">Kategori</label>
             <select class="form-select" id="category" name="category">
-                <option value="" selected>{{ $book->category }}</option>
+                <option value={{ $book->category }} selected>{{ $book->category }}</option>
                 <option value="Cok_satanlar">Çok satanlar</option>
                 <option value="Macera">Macera</option>
                 <option value="Korku">Korku</option>
@@ -48,5 +48,3 @@
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 @endsection
-
-value="{{ $book->title }}"

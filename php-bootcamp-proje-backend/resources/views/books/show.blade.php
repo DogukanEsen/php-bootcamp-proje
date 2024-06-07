@@ -13,7 +13,7 @@
             <p class="card-text">Quantity: {{ $book->quantity }}</p>
             @auth
                 @if (!Auth::user()->is_admin)
-                    <form action="{{ url('cart/add/' . $book->id) }}" method="POST">
+                    <form action="{{ route('cart.add', ['bookId' => $book->id]) }}" method="POST">
                         @csrf
                         @method('POST')
                         <div class="form-group">
@@ -24,16 +24,16 @@
                         <button type="submit" class="btn btn-primary">Add to Cart</button>
                     </form>
                 @elseif (Auth::user()->is_admin)
-                    <a href="{{ url('books/' . $book->id . '/edit') }}" class="btn btn-secondary">Edit</a>
+                    <a href="{{ route('books.edit', ['id' => $book->id]) }}" class="btn btn-secondary">Edit</a>
 
-                    <form action="{{ url('books/' . $book->id) }}" method="POST" class="d-inline-block">
+                    <form action="{{ route('books.destroy', ['id' => $book->id]) }}" method="POST" class="d-inline-block">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 @endif
             @endauth
-            <a href="{{ url('/books') }}" class="btn btn-primary">Back to List</a>
+            <a href="{{ route('books.index') }}" class="btn btn-primary">Back to List</a>
         </div>
     </div>
 @endsection
