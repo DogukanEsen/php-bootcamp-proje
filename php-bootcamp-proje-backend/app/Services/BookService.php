@@ -81,8 +81,8 @@ class BookService
     {
 
         $results = Book::where('title', 'like', "%$query%")
-            ->orWhere('description', 'like', '%' . $query . '%')
-            ->orWhere('category', 'like', '%' . $query . '%')
+            ->orWhere('description', 'like', "%$query%")
+            ->orWhere('category', 'like', "%$query%")
             ->get();
 
         return $results;

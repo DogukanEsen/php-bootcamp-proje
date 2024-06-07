@@ -18,12 +18,28 @@
             <div class="col">
                 <div class="collapse navbar-collapse" id="basic-navbar-nav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#home">Kayit Ol!</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#link">Giriş Yap!</a>
-                        </li>
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">Kayıt Ol</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">Giriş Yap</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('account.settings') }}">Hesap Ayarları</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                                    Çıkış Yap
+                                </a>
+                            </li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        @endguest
                     </ul>
                 </div>
             </div>

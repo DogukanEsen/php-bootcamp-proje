@@ -14,28 +14,48 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    public function showRegisterForm()
+    {
+        return view('users.register');
+    }
+
     public function register(Request $request)
     {
         $user = $this->userService->register($request);
-        return response()->json($user, 200);
+        return redirect()->route('login');
+    }
+    public function showLoginForm()
+    {
+        return view('users.login');
     }
 
     public function login(Request $request)
     {
-        $user = $this->userService->login($request);
-        return response()->json($user, 200);
+        if ($this->userService->login($request)) {
+            return redirect('/');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 
 
-
-    public function changePassword($id, Request $request)
+    public function logout(Request $request)
     {
-        $user = $this->userService->changePassword($id, $request->new_password);
-        return response()->json($user, 200);
+        $this->userService->logout($request);
+        return redirect('/');
     }
-    public function uploadProfilePhotoPath($id, Request $request)
+
+    public function showAccountSettings()
     {
-        $user = $this->userService->uploadProfilePhotoPath($id, $request->profile_photo_path);
-        return response()->json($user, 200);
+        return view('users.account-settings');
+    }
+
+    public function update(Request $request)
+    {
+        $book = $this->userService->update($request);
+
+        return view('users.account-settings');
     }
 }
