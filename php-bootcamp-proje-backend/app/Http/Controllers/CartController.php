@@ -25,18 +25,7 @@ class CartController extends Controller
     }
     public function viewCart()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        $user = Auth::user();
-        $cart = Cart::where('user_id', $user->id)->first();
-
-        if (!$cart) {
-            return view('cart.view')->with('cartItems', []);
-        }
-
-        $cartItems = $cart->items()->with('book')->get();
+        $cartItems = $this->cartService->viewCart();
 
         return view('cart.view')->with('cartItems', $cartItems);
     }

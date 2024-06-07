@@ -42,6 +42,25 @@ class CartService
         return $book;
     }
 
+    public function viewCart()
+    {
+
+        if (!Auth::check() || Auth::user()->is_admin) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $cart = Cart::where('user_id', $user->id)->first();
+
+        if (!$cart) {
+            return view('cart.view')->with('cartItems', []);
+        }
+
+        $cartItems = $cart->items()->with('book')->get();
+        return $cartItems;
+
+    }
+
     public function checkout($cartId)
     {
         //TODO: Ödeme işlemlerini burada geliştir.
