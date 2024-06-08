@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -15,7 +16,7 @@ class BookService
     }
     public function createBook($request)
     {
-
+        $this->authCheck();
         $data = $request->validate([
             'isbn' => 'required|string|max:255|unique:books,isbn',
             'title' => 'required|string|max:255',
@@ -46,6 +47,7 @@ class BookService
     }
     public function update($id, $request)
     {
+        $this->authCheck();
         $data = $request->validate([
             'isbn' => 'sometimes|required|string|max:255',
             'title' => 'sometimes|required|string|max:255',
@@ -89,6 +91,7 @@ class BookService
 
     public function delete($id)
     {
+        $this->authCheck();
         $book = Book::find($id);
         if ($book) {
             if ($book->cover_image_path) {
@@ -99,4 +102,17 @@ class BookService
         }
         return ['success' => false, 'message' => 'Book not found.'];
     }
+    public function authCheck()
+    {
+        if (!Auth::check() || !Auth::user()->is_admin) {
+            return ['success' => false, 'message' => 'You are not Admin.'];
+        }
+    }
+    public function authCheck_Controller()
+    {
+        if (!Auth::check() || !Auth::user()->is_admin) {
+            return redirect()->back()->with('error', "admin yetkisi gerekli");
+        }
+    }
 }
+

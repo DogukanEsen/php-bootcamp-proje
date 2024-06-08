@@ -22,6 +22,7 @@ class BookController extends Controller
 
     public function create()
     {
+        $this->bookService->authCheck_Controller();
         return view('books.create');
     }
 
@@ -53,6 +54,7 @@ class BookController extends Controller
 
     public function edit($id)
     {
+        $this->bookService->authCheck_Controller();
         $book = $this->bookService->getById($id);
         return view('books.edit', compact('book'));
     }
