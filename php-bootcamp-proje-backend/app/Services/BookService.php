@@ -78,7 +78,7 @@ class BookService
 
     public function search($query)
     {
-
+        $query = htmlspecialchars($query);
         $results = Book::where('title', 'like', "%$query%")
             ->orWhere('description', 'like', "%$query%")
             ->orWhere('category', 'like', "%$query%")

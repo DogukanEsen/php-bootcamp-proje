@@ -67,6 +67,12 @@ class UserService
         ]);
 
         $user = Auth::user();
+        //Eğer kayıtlı olan kullanıcının emailini almak isterse hata alsın. 
+        if ($user->email != $data['email']) {
+            $data = $request->validate([
+                'email' => 'sometimes|string|email|unique:users,email',
+            ]);
+        }
         if ($user) {
 
             if ($request->hasFile('profile_photo')) {

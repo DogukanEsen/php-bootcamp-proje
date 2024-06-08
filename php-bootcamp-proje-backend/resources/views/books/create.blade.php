@@ -2,7 +2,7 @@
 
 @section('content')
     <h1 class="mb-4">Create Book</h1>
-    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">>
+    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="isbn">Isbn:</label>
