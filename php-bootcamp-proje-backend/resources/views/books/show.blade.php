@@ -8,7 +8,9 @@
             <p class="card-text">Description: {{ $book->description }}</p>
             <p class="card-text">Isbn: {{ $book->isbn }}</p>
             <p class="card-text">Category: {{ $book->category }}</p>
-            <p class="card-text">Cover Image Path: {{ $book->cover_image_path }}</p>
+            @if ($book->cover_image_path)
+                <img src="{{ Storage::url($book->cover_image_path) }}" alt="{{ $book->title }}" width="100">
+            @endif
             <p class="card-text">Price: ₺{{ $book->price }}</p>
             <p class="card-text">Quantity: {{ $book->quantity }}</p>
             @auth
